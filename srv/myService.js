@@ -6,6 +6,9 @@ module.exports = (srv) => {
         },{
             "vendorId":2,
             "name": "IBM"
+        },{
+            "vendorId":3,
+            "name": "IBM India"
         }]
 
         for (let index = 0; index < aVendors.length; index++) {
