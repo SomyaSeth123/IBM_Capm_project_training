@@ -1,10 +1,13 @@
 using { anubhav.db.master, anubhav.db.transaction } from '../db/datamodel';
 
-service CatalogService @(path:'CatalogService'){
+service CatalogService @(path:'CatalogService', requires: 'authenticated-user'){
     //All the CURDQ operations will be created as OData Service
     //defining an entity in odata with name Employee set which will automaically take
     //data from our database table in data model - employee
-    entity EmployeeSet as projection on master.employees;    
+    entity EmployeeSet @(restrict: [ 
+                        { grant: ['READ'], to: 'Viewer', where: 'bankName = $user.BankName' },    //defining scopes
+                        { grant: ['WRITE'], to: 'Admin' }
+                        ]) as projection on master.employees;    
     entity BusinessPartnerSet as projection on master.businesspartner;  
     entity AddressSet as projection on master.address;
     entity PurchaseOrderItems as projection on transaction.poitems;
